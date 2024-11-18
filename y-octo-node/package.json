@@ -1,0 +1,71 @@
+{
+  "name": "@y-octo/node",
+  "private": true,
+  "main": "index.js",
+  "types": "index.d.ts",
+  "napi": {
+    "name": "y-octo",
+    "triples": {
+      "additional": [
+        "aarch64-apple-darwin",
+        "aarch64-pc-windows-msvc",
+        "aarch64-unknown-linux-gnu",
+        "x86_64-unknown-linux-musl",
+        "aarch64-unknown-linux-musl"
+      ]
+    },
+    "ts": {
+      "constEnum": false
+    }
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@napi-rs/cli": "^2.16.2",
+    "@types/node": "^18.17.5",
+    "@types/prompts": "^2.4.4",
+    "c8": "^8.0.1",
+    "prompts": "^2.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.1.6",
+    "yjs": "^13.6.8"
+  },
+  "engines": {
+    "node": ">= 10"
+  },
+  "scripts": {
+    "artifacts": "napi artifacts",
+    "build": "napi build --platform --release --no-const-enum",
+    "build:debug": "napi build --platform --no-const-enum",
+    "universal": "napi universal",
+    "test": "NODE_NO_WARNINGS=1 yarn exec ts-node-esm ./scripts/run-test.mts all",
+    "test:watch": "yarn exec ts-node-esm ./scripts/run-test.ts all --watch",
+    "test:coverage": "NODE_OPTIONS=\"--loader ts-node/esm\" c8 node ./scripts/run-test.mts all",
+    "version": "napi version"
+  },
+  "version": "0.0.1",
+  "sharedConfig": {
+    "nodeArgs": [
+      "--loader",
+      "ts-node/esm",
+      "--es-module-specifier-resolution=node"
+    ],
+    "env": {
+      "TS_NODE_TRANSPILE_ONLY": "1",
+      "TS_NODE_PROJECT": "./tsconfig.json",
+      "NODE_ENV": "development",
+      "DEBUG": "napi:*"
+    }
+  },
+  "c8": {
+    "reporter": [
+      "text",
+      "lcov"
+    ],
+    "report-dir": ".coverage",
+    "exclude": [
+      "scripts",
+      "node_modules",
+      "**/*.spec.ts"
+    ]
+  }
+}

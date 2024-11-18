@@ -1,0 +1,35 @@
+[workspace]
+
+members = [
+  "y-octo",
+  "y-octo-node",
+  "y-octo-utils",
+  "y-octo-utils/yrs-is-unsafe",
+]
+resolver = "2"
+
+  [workspace.dependencies]
+  y-octo       = { path = "./y-octo" }
+  y-octo-utils = { path = "./y-octo-utils" }
+
+[profile.release]
+codegen-units = 1
+lto           = true
+opt-level     = 3
+
+[profile.fast-release]
+codegen-units = 16
+inherits      = "release"
+lto           = false
+
+[profile.profiling]
+debug    = true
+inherits = "fast-release"
+
+# [profile.release.package.y-octo-fuzz]
+# debug = 1
+
+[patch.crates-io]
+lib0   = { git = "https://github.com/toeverything/y-crdt", rev = "a700f09" }
+y-sync = { git = "https://github.com/toeverything/y-sync", rev = "5626851" }
+yrs    = { git = "https://github.com/toeverything/y-crdt", rev = "a700f09" }
